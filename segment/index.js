@@ -2,9 +2,9 @@ import schema from './schema.js';
 import search from './search.js';
 import upsert from './transforms/inbound/upsert.js';
 const metadata = {
-  name: '@engine9/interfaces/segment',
+  name: '@engine9/schemas/segment',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   }
 };
 export const transforms = {

@@ -3,7 +3,7 @@ export const subscribers = {
   search: {
     and: [
       {
-        path: '@engine9/interfaces/person_email:search:emails',
+        path: '@engine9/schemas/person_email:search:emails',
         options: {
           subscriptionStatus: 'Subscribed'
         }

@@ -1,8 +1,8 @@
-# Agent guide — `@engine9/interfaces`
+# Agent guide — `@engine9/schemas`
 
 ## License
 
-`@engine9/interfaces` is MIT licensed. See [LICENSE](LICENSE). Use, copy,
+`@engine9/schemas` is MIT licensed. See [LICENSE](LICENSE). Use, copy,
 modify, and distribute this code as-is. No further permission is required.
 
 `@engine9/core`, `@engine9/id`, `demo-festival`, and `demo-id` are also MIT.

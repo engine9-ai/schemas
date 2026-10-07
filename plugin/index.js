@@ -1,7 +1,7 @@
 import schema from './schema.js';
 import { settings } from './settings.js';
 const metadata = {
-  name: '@engine9/interfaces/plugin'
+  name: '@engine9/schemas/plugin'
 };
 export { metadata };
 export { schema };

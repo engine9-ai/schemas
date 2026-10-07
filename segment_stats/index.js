@@ -1,10 +1,10 @@
 import schema from './schema.js';
 
 const metadata = {
-  name: '@engine9/interfaces/segment_stats',
+  name: '@engine9/schemas/segment_stats',
   schemas: ['schema.js'],
   dependencies: {
-    '@engine9/interfaces/segment': '>=1.0.0'
+    '@engine9/schemas/segment': '>=1.9.0'
   }
 };
 

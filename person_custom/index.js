@@ -5,7 +5,7 @@ const metadata = {
   prefix: 'person_custom',
   unique: false,
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys. Core expands the
   // upsert once per installed row (one custom field table per table_prefix).

@@ -2,9 +2,9 @@ import search from './search.js';
 import segments, { personSegmentTableName, universeEmailPublished90d } from './segments.js';
 
 const metadata = {
-  name: '@engine9/interfaces/channels/email',
+  name: '@engine9/schemas/channels/email',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   }
 };
 

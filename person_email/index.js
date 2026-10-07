@@ -6,9 +6,9 @@ import appendEmail from './transforms/outbound/appendEmail.js';
 import appendEmailHash from './transforms/outbound/appendEmailHash.js';
 import segments from './segments.js';
 const metadata = {
-  name: '@engine9/interfaces/person_email',
+  name: '@engine9/schemas/person_email',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys (woven by core when installed)
   inbound: {

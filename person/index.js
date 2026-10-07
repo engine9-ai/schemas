@@ -5,7 +5,7 @@ import simpleMap from './transforms/simpleMap.js';
 import appendName from './transforms/outbound/appendName.js';
 import metrics from './metrics.js';
 const metadata = {
-  name: '@engine9/interfaces/person',
+  name: '@engine9/schemas/person',
   schemas: ['schema.js'],
   // Inbound people pipeline slots -> transform export keys (woven by core when installed)
   inbound: {

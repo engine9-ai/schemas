@@ -4,9 +4,9 @@ import appendAddress from './transforms/outbound/appendAddress.js';
 import schema from './schema.js';
 
 const metadata = {
-  name: '@engine9/interfaces/person_address',
+  name: '@engine9/schemas/person_address',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys (woven by core when installed).
   // `normalize` stays a standalone export; upsert already normalizes inline.

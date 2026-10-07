@@ -1,8 +1,8 @@
-# Event Interface
+# Event Schema Plugin
 
-`@engine9/interfaces/event` is the shared calendar-style event contract: an `event` row plus `person_event` RSVP / attendance links. Install on accounts that need events; it is not part of the standard stack.
+`@engine9/schemas/event` is the shared calendar-style event contract: an `event` row plus `person_event` RSVP / attendance links. Install on accounts that need events; it is not part of the standard stack.
 
-Depends on `@engine9/interfaces/person` because every `person_event` row belongs to a person through `person_id`.
+Depends on `@engine9/schemas/person` because every `person_event` row belongs to a person through `person_id`.
 
 ## Data Model
 
@@ -60,7 +60,7 @@ None.
 
 | Key | Path | Purpose |
 | --- | --- | --- |
-| `responses` | `@engine9/interfaces/event:search:responses` | Filter people by `person_event.response` and optional `eventId`. |
+| `responses` | `@engine9/schemas/event:search:responses` | Filter people by `person_event.response` and optional `eventId`. |
 
 ## Segments
 
@@ -72,7 +72,7 @@ None.
 
 ## Reports and UI
 
-None on this interface. Dashboards belong on `@engine9/plugins/reports/<area>` if needed later.
+None on this schema plugin. Dashboards belong on `@engine9/plugins/reports/<area>` if needed later.
 
 ## Settings
 

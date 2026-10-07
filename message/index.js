@@ -1,5 +1,5 @@
 const metadata = {
-  name: '@engine9/interfaces/message',
+  name: '@engine9/schemas/message',
   schemas: ['schema.js']
 };
 export { metadata };

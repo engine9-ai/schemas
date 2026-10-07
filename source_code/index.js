@@ -1,9 +1,9 @@
 import schema from './schema.js';
 import metrics from './metrics.js';
 const metadata = {
-  name: '@engine9/interfaces/source_code',
+  name: '@engine9/schemas/source_code',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   }
 };
 export { metadata };

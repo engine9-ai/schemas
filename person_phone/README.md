@@ -1,8 +1,8 @@
-# Person Phone Interface
+# Person Phone Schema Plugin
 
-The `@engine9/interfaces/person_phone` plugin stores phone numbers for people and provides the common phone-related behavior used by imports, matching, searches, segments, and exports.
+The `@engine9/schemas/person_phone` plugin stores phone numbers for people and provides the common phone-related behavior used by imports, matching, searches, segments, and exports.
 
-It depends on `@engine9/interfaces/person` because every phone row belongs to a person through `person_id`.
+It depends on `@engine9/schemas/person` because every phone row belongs to a person through `person_id`.
 
 ## Data Model
 
@@ -59,14 +59,14 @@ The `phones` search lets users find people who have a phone number, optionally f
 
 ## Segments
 
-Predefined audiences shipped with this interface. On install, each key becomes a `segment` row whose definition path is `@engine9/interfaces/person_phone:segments:<key>`.
+Predefined audiences shipped with this schema plugin. On install, each key becomes a `segment` row whose definition path is `@engine9/schemas/person_phone:segments:<key>`.
 
 ### Textable People
 
 | | |
 | --- | --- |
 | **Key** | `textable` |
-| **Definition path** | `@engine9/interfaces/person_phone:segments:textable` |
+| **Definition path** | `@engine9/schemas/person_phone:segments:textable` |
 | **Who is included** | People with at least one phone whose `sms_status` is `Subscribed` |
 | **Who is excluded** | People whose phones are only `Not Subscribed`, `Unsubscribed`, or `Bouncing` for SMS |
 | **How it is built** | Direct `person_phone` condition `sms_status = Subscribed` |

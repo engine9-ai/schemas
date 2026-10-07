@@ -1,8 +1,8 @@
 import schema from './schema.js';
 const metadata = {
-  name: '@engine9/interfaces/tag',
+  name: '@engine9/schemas/tag',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   }
 };
 export { metadata };

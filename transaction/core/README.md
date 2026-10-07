@@ -1,8 +1,8 @@
-# Transaction Core Interface
+# Transaction Core Schema Plugin
 
-The `@engine9/interfaces/transaction/core` plugin stores payment and gift transactions for people and provides the common transaction search, metrics, and segment used by imports, reports, and exports.
+The `@engine9/schemas/transaction/core` plugin stores payment and gift transactions for people and provides the common transaction search, metrics, and segment used by imports, reports, and exports.
 
-It depends on `@engine9/interfaces/person` because every transaction belongs to a person through `person_id`.
+It depends on `@engine9/schemas/person` because every transaction belongs to a person through `person_id`.
 
 ## Data Model
 
@@ -63,14 +63,14 @@ The inbound `upsert` transform writes rows to `transaction`.
 
 ## Segments
 
-Predefined audiences shipped with this interface. On install, each key becomes a `segment` row whose definition path is `@engine9/interfaces/transaction/core:segments:<key>`.
+Predefined audiences shipped with this schema plugin. On install, each key becomes a `segment` row whose definition path is `@engine9/schemas/transaction/core:segments:<key>`.
 
 ### Customers
 
 | | |
 | --- | --- |
 | **Key** | `customers` |
-| **Definition path** | `@engine9/interfaces/transaction/core:segments:customers` |
+| **Definition path** | `@engine9/schemas/transaction/core:segments:customers` |
 | **Who is included** | People who have at least one row in `transaction` |
 | **Who is excluded** | People with no transactions |
 | **How it is built** | A `transaction` table search that selects `person_id` with no extra filters |

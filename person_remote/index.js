@@ -4,9 +4,9 @@ import extractRemotePersonIds from './transforms/inbound/extract_identifiers.js'
 import upsertPersonRemote from './transforms/inbound/upsert_tables.js';
 import appendRemotePersonId from './transforms/outbound/appendRemotePersonId.js';
 const metadata = {
-  name: '@engine9/interfaces/person_remote',
+  name: '@engine9/schemas/person_remote',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys (woven by core when installed)
   inbound: {

@@ -6,10 +6,10 @@ import appendEmailHash from './transforms/outbound/appendEmailHash.js';
 import appendPhoneHash from './transforms/outbound/appendPhoneHash.js';
 
 const metadata = {
-  name: '@engine9/interfaces/person_hash',
+  name: '@engine9/schemas/person_hash',
   unique: true,
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys. Core weaves these in
   // whenever this plugin is installed; it never hardcodes this path.

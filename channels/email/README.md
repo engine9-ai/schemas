@@ -1,8 +1,8 @@
-# Email Channel Interface
+# Email Channel Schema Plugin
 
-The `@engine9/interfaces/channels/email` plugin defines email-channel search and engagement segments. It does not create its own tables. Segment builds read `global_message`, `input`, and `timeline` rows produced by email message plugins.
+The `@engine9/schemas/channels/email` plugin defines email-channel search and engagement segments. It does not create its own tables. Segment builds read `global_message`, `input`, and `timeline` rows produced by email message plugins.
 
-It depends on `@engine9/interfaces/person` because membership is always a set of people.
+It depends on `@engine9/schemas/person` because membership is always a set of people.
 
 ## Search
 
@@ -18,7 +18,7 @@ The search looks at `timeline` rows whose `entry_type_id` matches the engagement
 
 ## Segments
 
-Predefined audiences shipped with this interface. On install, each key becomes a `segment` row whose definition path is `@engine9/interfaces/channels/email:segments:<key>`.
+Predefined audiences shipped with this schema plugin. On install, each key becomes a `segment` row whose definition path is `@engine9/schemas/channels/email:segments:<key>`.
 
 Every segment here uses the same **universe** and the `emailEngagement` search. The universe and the search do different jobs, and both are required:
 
@@ -32,7 +32,7 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_openers_30d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_openers_30d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_openers_30d` |
 | **Who is included** | People with an `EMAIL_OPEN` on a universe email in the last 30 days |
 | **Who is excluded** | People with no open in that window, or whose only opens are on messages outside the 90-day published universe |
 
@@ -41,7 +41,7 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_openers_60d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_openers_60d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_openers_60d` |
 | **Who is included** | People with an `EMAIL_OPEN` on a universe email in the last 60 days |
 
 ### 90-day email openers
@@ -49,7 +49,7 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_openers_90d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_openers_90d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_openers_90d` |
 | **Who is included** | People with an `EMAIL_OPEN` on a universe email in the last 90 days |
 
 ### 30-day email clickers
@@ -57,7 +57,7 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_clickers_30d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_clickers_30d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_clickers_30d` |
 | **Who is included** | People with an `EMAIL_CLICK` on a universe email in the last 30 days |
 | **Who is excluded** | People who only opened (and did not click), or whose only clicks are outside the window or universe |
 
@@ -66,7 +66,7 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_clickers_60d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_clickers_60d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_clickers_60d` |
 | **Who is included** | People with an `EMAIL_CLICK` on a universe email in the last 60 days |
 
 ### 90-day email clickers
@@ -74,10 +74,10 @@ An open or click on a message published more than 90 days ago does not count, ev
 | | |
 | --- | --- |
 | **Key** | `email_clickers_90d` |
-| **Definition path** | `@engine9/interfaces/channels/email:segments:email_clickers_90d` |
+| **Definition path** | `@engine9/schemas/channels/email:segments:email_clickers_90d` |
 | **Who is included** | People with an `EMAIL_CLICK` on a universe email in the last 90 days |
 
 ## Reports and UI
 
-This interface does not ship reports. Email engagement and fundraising dashboards live on `@engine9/plugins/reports/messaging` (`email`, `email_transactions`). See [`plugins/reports/messaging/README.md`](../../../plugins/reports/messaging/README.md).
+This schema plugin does not ship reports. Email engagement and fundraising dashboards live on `@engine9/plugins/reports/messaging` (`email`, `email_transactions`). See [`plugins/reports/messaging/README.md`](../../../plugins/reports/messaging/README.md).
 

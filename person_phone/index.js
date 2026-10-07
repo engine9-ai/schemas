@@ -5,9 +5,9 @@ import extractPhoneHashes from './transforms/inbound/extract_identifiers.js';
 import upsertPersonPhone from './transforms/inbound/upsert_tables.js';
 import appendPhoneHash from './transforms/outbound/appendPhoneHash.js';
 const metadata = {
-  name: '@engine9/interfaces/person_phone',
+  name: '@engine9/schemas/person_phone',
   dependencies: {
-    '@engine9/interfaces/person': '>=1.0.0'
+    '@engine9/schemas/person': '>=1.9.0'
   },
   // Inbound people pipeline slots -> transform export keys (woven by core when installed)
   inbound: {

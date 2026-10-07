@@ -1,8 +1,8 @@
-# Person Email Interface
+# Person Email Schema Plugin
 
-The `@engine9/interfaces/person_email` plugin stores email addresses for people and provides the common email-related behavior used by imports, matching, searches, segments, and exports.
+The `@engine9/schemas/person_email` plugin stores email addresses for people and provides the common email-related behavior used by imports, matching, searches, segments, and exports.
 
-It depends on `@engine9/interfaces/person` because every email row belongs to a person through `person_id`.
+It depends on `@engine9/schemas/person` because every email row belongs to a person through `person_id`.
 
 Browser / public forms should use the column name **`email_type`** (never `type`).
 See [`@engine9/id` forms docs](../../id/docs/forms.md).
@@ -60,14 +60,14 @@ The `emails` search lets users find people who have an email address, optionally
 
 ## Segments
 
-Predefined audiences shipped with this interface. On install, each key becomes a `segment` row whose definition path is `@engine9/interfaces/person_email:segments:<key>`.
+Predefined audiences shipped with this schema plugin. On install, each key becomes a `segment` row whose definition path is `@engine9/schemas/person_email:segments:<key>`.
 
 ### Email Subscribers
 
 | | |
 | --- | --- |
 | **Key** | `subscribers` |
-| **Definition path** | `@engine9/interfaces/person_email:segments:subscribers` |
+| **Definition path** | `@engine9/schemas/person_email:segments:subscribers` |
 | **Who is included** | People with at least one email whose `subscription_status` is `Subscribed` |
 | **Who is excluded** | People whose emails are only `Not Subscribed`, `Unsubscribed`, `Bouncing`, or `Spam` |
 | **How it is built** | The `emails` search with `subscriptionStatus: Subscribed` |

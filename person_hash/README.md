@@ -1,19 +1,19 @@
-# Person Hash Interface
+# Person Hash Schema Plugin
 
-`@engine9/interfaces/person_hash` stores **pseudonymous match keys** for email and phone — SHA-256 (`*_hash_v1`) and MD5 (`*_hash_md5`) — without storing the plaintext.
+`@engine9/schemas/person_hash` stores **pseudonymous match keys** for email and phone — SHA-256 (`*_hash_v1`) and MD5 (`*_hash_md5`) — without storing the plaintext.
 
-It is **not** part of the standard stack. It ships in `@engine9/interfaces/stacks/limited-pii`, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
+It is **not** part of the standard stack. It ships in `@engine9/schemas/stacks/limited-pii`, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
 
-Warehouse plugin setting `exclude_pii` on `@engine9/interfaces/utilities/limited-pii` makes `installDefaultPlugins()` prefer the limited-pii stack over `default_stack` and refuses `@engine9/interfaces/stacks/standard`, `person_email`, `person_phone`, and `person_address` even if those plugins are already installed. That does **not** uninstall leftover plaintext tables. Install the utility plugin on demand; it is not part of the limited-pii stack.
+Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` makes `installDefaultPlugins()` prefer the limited-pii stack over `default_stack` and refuses `@engine9/schemas/stacks/standard`, `person_email`, `person_phone`, and `person_address` even if those plugins are already installed. That does **not** uninstall leftover plaintext tables. Install the utility plugin on demand; it is not part of the limited-pii stack.
 
-It does **not** depend on `person_email` or `person_phone`. Those plugins may be installed alongside it; this interface never writes to their tables.
+It does **not** depend on `person_email` or `person_phone`. Those plugins may be installed alongside it; this schema plugin never writes to their tables.
 
 ## Install
 
 ```javascript
-await pluginWorker.install({ path: '@engine9/interfaces/person_hash' });
+await pluginWorker.install({ path: '@engine9/schemas/person_hash' });
 // or the PII-free stack
-await pluginWorker.installDefaultPlugins({ path: '@engine9/interfaces/stacks/limited-pii' });
+await pluginWorker.installDefaultPlugins({ path: '@engine9/schemas/stacks/limited-pii' });
 ```
 
 A second install of the same path reuses the existing plugin row.
@@ -65,6 +65,6 @@ The `upsertPersonHash` transform writes only hash columns to `person_hash_email`
 
 `PersonWorker.search` `emails` / `phones` match `person_email` / `person_phone` when those tables exist, and also hash the query (or accept SHA-256 / MD5 hex) against `person_hash_email` / `person_hash_phone`. If the caller passed emails or phones and neither table exists, the clause matches nobody (`1=0`). Related summaries include `email_hashes` / `phone_hashes` when those tables are present.
 
-The plugin also exports `search.emailHashes` / `search.phoneHashes` for the plugin search tree (`@engine9/interfaces/person_hash:search:emailHashes`).
+The plugin also exports `search.emailHashes` / `search.phoneHashes` for the plugin search tree (`@engine9/schemas/person_hash:search:emailHashes`).
 
 Default warehouse export includes the hash tables (export skips them when they do not exist). When utilities/limited-pii `exclude_pii` is set and `tables` is not explicit, `person_email` / `person_phone` / `person_address` are omitted from that default list.

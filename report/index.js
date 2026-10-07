@@ -1,5 +1,5 @@
 const metadata = {
-  name: '@engine9/interfaces/report',
+  name: '@engine9/schemas/report',
 };
 export { metadata };
 export default {
