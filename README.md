@@ -2,8 +2,6 @@
 
 The engine9 standard schemas: shared tables, inbound transforms, searches, and segments used by core and by plugins. Each directory with an `index.js` is a **schema plugin** (`@engine9/schemas/person_email`, `@engine9/schemas/transaction/core`, …). A schema plugin's table definitions are its `schema.js`. Building on these schema plugins lets other plugins share common tools and features while adding their own functionality.
 
-This package was published as `@engine9/interfaces` through 1.8.1. `@engine9/core` 1.9 does not read `@engine9/interfaces/...` paths; run `PluginWorker.migratePackageRename` to rewrite rows stored before the rename.
-
 This package is [MIT licensed](./LICENSE). Use, copy, modify, and distribute
 this code as-is.
 
