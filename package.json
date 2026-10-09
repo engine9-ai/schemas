@@ -1,6 +1,6 @@
 {
   "name": "@engine9/schemas",
-  "version": "1.9.0",
+  "version": "1.9.1",
   "type": "module",
   "description": "Engine9 standard schemas: shared tables, transforms, searches, and segments",
   "main": "index.js",
