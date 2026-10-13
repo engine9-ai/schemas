@@ -1,11 +1,12 @@
 {
   "name": "@engine9/schemas/stacks/standard",
-  "description": "Opt-in Engine9 schema stack: person, plaintext email, phone, and postal address, timeline, source codes, and transactions. Reports install separately.",
-  "version": "1.0.0",
+  "description": "Opt-in Engine9 schema stack: person, plaintext names, email, phone, and postal address, timeline, source codes, and transactions. Reports install separately.",
+  "version": "1.1.0",
   "unique": true,
   "include": [
     "@engine9/schemas/plugin",
     "@engine9/schemas/person",
+    "@engine9/schemas/person_name",
     "@engine9/schemas/person_remote",
     "@engine9/schemas/segment",
     "@engine9/schemas/person_email",

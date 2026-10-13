@@ -4,7 +4,7 @@
 
 It is **not** part of the standard stack. It ships in `@engine9/schemas/stacks/limited-pii`, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
 
-Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` makes `installDefaultPlugins()` prefer the limited-pii stack over `default_stack` and refuses `@engine9/schemas/stacks/standard`, `person_email`, `person_phone`, and `person_address` even if those plugins are already installed. That does **not** uninstall leftover plaintext tables. Install the utility plugin on demand; it is not part of the limited-pii stack.
+Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` makes `installDefaultPlugins()` prefer the limited-pii stack over `default_stack` and refuses `@engine9/schemas/stacks/standard`, `person_name`, `person_email`, `person_phone`, `person_address`, and `transaction/contact_details` even if those plugins are already installed. That does **not** uninstall leftover plaintext tables. Install the utility plugin on demand; it is not part of the limited-pii stack.
 
 It does **not** depend on `person_email` or `person_phone`. Those plugins may be installed alongside it; this schema plugin never writes to their tables.
 
@@ -31,7 +31,7 @@ inbound: {
 
 How slots and the weaver work: `@engine9/core/lib/peoplePipeline/README.md`.
 
-To see the woven chain for an account: `personWorker.getInboundTransforms({ pluginId, describe: true })` (CLI: `e9 personworker getInboundTransforms --plugin_id=<plugin_id> --describe=true`). On a limited-pii account the listing has `person_hash` on `id` and `upsert` and no `person_email` / `person_phone` / `person_address` lines. Drop a step for one job with `omit_transforms`.
+To see the woven chain for an account: `personWorker.getInboundTransforms({ pluginId, describe: true })` (CLI: `e9 personworker getInboundTransforms --plugin_id=<plugin_id> --describe=true`). On a limited-pii account the listing has `person_hash` on `id` and `upsert` and no `person_name` / `person_email` / `person_phone` / `person_address` lines. Drop a step for one job with `omit_transforms`.
 
 ## Data Model
 
@@ -67,4 +67,4 @@ The `upsertPersonHash` transform writes only hash columns to `person_hash_email`
 
 The plugin also exports `search.emailHashes` / `search.phoneHashes` for the plugin search tree (`@engine9/schemas/person_hash:search:emailHashes`).
 
-Default warehouse export includes the hash tables (export skips them when they do not exist). When utilities/limited-pii `exclude_pii` is set and `tables` is not explicit, `person_email` / `person_phone` / `person_address` are omitted from that default list.
+Default warehouse export includes the hash tables (export skips them when they do not exist). When utilities/limited-pii `exclude_pii` is set and `tables` is not explicit, `person_name` / `person_email` / `person_phone` / `person_address` are omitted from that default list.

@@ -8,6 +8,8 @@ It depends on `@engine9/schemas/person` because every transaction belongs to a p
 
 The plugin creates the `transaction` table. Each row is a dated amount tied to a person, an input, and optional source-code / message attribution.
 
+The payer's name, email, phone, and address are not part of this plugin. `@engine9/schemas/transaction/contact_details` adds those columns to `transaction`; the limited-pii stack excludes it.
+
 | Field | Type | Description |
 | --- | --- | --- |
 | `id` | `id_uuid` | Primary row identifier. |
@@ -22,7 +24,6 @@ The plugin creates the `transaction` table. Each row is a dated amount tied to a
 | `recurs_id` | `int` | Recurring frequency. `0` is one-time. Defaults to `0`. |
 | `recurring_number` | `int` | Sequence number in a recurring series. |
 | `refund_amount` | `currency` | Refunded amount when applicable. |
-| `given_name` / `family_name` / `email` | `string` | Snapshot of payer identity on the transaction. |
 | `source_code_id` | `source_code_id` | Source code captured on the transaction. |
 | `override_source_code_id` | `source_code_id` | Manual source-code override. |
 | `final_source_code_id` | `source_code_id` | Source code after attribution. |

@@ -1,7 +1,7 @@
 {
   "name": "@engine9/schemas/stacks/limited-pii",
-  "description": "PII-minimized Engine9 stack: hash identifiers instead of plaintext email, phone, or postal address. Excludes person_email, person_phone, and person_address even if requested.",
-  "version": "1.1.0",
+  "description": "PII-minimized Engine9 stack: hash identifiers instead of plaintext names, email, phone, or postal address. Excludes person_name, person_email, person_phone, person_address, and transaction/contact_details even if requested.",
+  "version": "1.2.0",
   "unique": true,
   "include": [
     "@engine9/schemas/plugin",
@@ -11,12 +11,13 @@
     "@engine9/schemas/timeline",
     "@engine9/schemas/source_code",
     "@engine9/schemas/transaction/core",
-    "@engine9/schemas/transaction/contact_details",
     "@engine9/schemas/person_hash"
   ],
   "exclude": [
+    "@engine9/schemas/person_name",
     "@engine9/schemas/person_email",
     "@engine9/schemas/person_phone",
-    "@engine9/schemas/person_address"
+    "@engine9/schemas/person_address",
+    "@engine9/schemas/transaction/contact_details"
   ]
 }

@@ -2,21 +2,23 @@ import schema from './schema.js';
 import upsertPerson from './transforms/inbound/upsert_tables.js';
 import normalizeFieldNames from './transforms/inbound/normalize_field_names.js';
 import simpleMap from './transforms/simpleMap.js';
-import appendName from './transforms/outbound/appendName.js';
+import appendName from '../person_name/transforms/outbound/appendName.js';
 import metrics from './metrics.js';
 const metadata = {
   name: '@engine9/schemas/person',
   schemas: ['schema.js'],
   // Inbound people pipeline slots -> transform export keys (woven by core when installed)
   inbound: {
-    normalize: ['normalizeFieldNames'],
-    upsert: ['upsertPerson']
+    normalize: ['normalizeFieldNames']
   }
 };
 const transforms = {
   normalizeFieldNames,
+  // Not woven. Plugin rows installed before person_name still name it in their
+  // inbound snapshot until the person_name upgrade refreshes that snapshot.
   upsertPerson,
   simpleMap,
+  // Saved export definitions still call @engine9/schemas/person:transforms:appendName.
   appendName
 };
 export const search = {
@@ -26,14 +28,6 @@ export const search = {
       title: 'Primary Info',
       type: 'object',
       properties: {
-        givenName: {
-          title: 'First Name',
-          type: 'string'
-        },
-        familyName: {
-          title: 'Last Name',
-          type: 'string'
-        },
         ids: {
           title: 'Person Ids (comma delimited)',
           type: 'string'
@@ -51,7 +45,7 @@ export const search = {
     },
     optionsToEQL: (options) => {
       const text = [];
-      const { ids, idGreaterThanEqual, idLessThan, givenName = '', familyName = '' } = options;
+      const { ids, idGreaterThanEqual, idLessThan } = options;
       const conditions = [];
       if (ids) {
         let arr = ids || '';
@@ -67,14 +61,6 @@ export const search = {
       if (idLessThan) {
         conditions.push({ eql: `id<${idLessThan}` });
         text.push(`Person ID less than ${idLessThan}`);
-      }
-      if (givenName.length > 0) {
-        text.push(`First name like '${givenName}'`);
-        conditions.push({ eql: `given_name like '${givenName}'` });
-      }
-      if (familyName.length > 0) {
-        text.push(`Last name like '${givenName}'`);
-        conditions.push({ eql: `family_name like '${familyName}'` });
       }
       return {
         text,
