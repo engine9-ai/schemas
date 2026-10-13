@@ -66,4 +66,4 @@ Before this plugin, the names were `person.given_name` and `person.family_name`.
 - `npx e9core upgrade --db <connection>` for a SQLite or MySQL database
 - `npx e9core upgrade --url https://<site>` for a Cloudflare site (it posts to `/api/admin/upgrade` with `E9_ADMIN_API_KEY`)
 
-The upgrade installs this plugin and copies every non-blank name into `person_name`. It then refreshes the `person` plugin's inbound snapshot and drops both columns from `person`. On a PII-free account it does not install this plugin. It drops the columns only when they are empty, or when you pass `discard_names`.
+The upgrade installs this plugin and copies every non-blank name into `person_name`. It then refreshes the `person` plugin's inbound snapshot, so later loads write `person_name` only. The columns stay on `person` with the names as of the upgrade. Dropping them is a separate, opt-in step (`drop_name_columns`), for when nothing reads them. On a PII-free account the upgrade does not install this plugin, and the opt-in drop removes the columns only when they are empty, or when you also pass `discard_names`.
