@@ -49,9 +49,9 @@ The inbound `upsert` transform writes rows to `person_phone`.
 
 `appendPhoneHash` hashes the row's normalized `phone` into `phone_hash_v1` when the hash is not already present.
 
-## Search
+## Segment definition clauses
 
-The `phones` search lets users find people who have a phone number, optionally filtered by:
+The `phones` clause selects people who have a phone number, optionally filtered by:
 
 - `smsStatus`, using the same values as `sms_status`
 - `callStatus`, using the same values as `call_status`

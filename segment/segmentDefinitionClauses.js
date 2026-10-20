@@ -59,6 +59,7 @@ export const segment = {
     return { text, eql };
   }
 };
+export const segmentDefinitionClauses = { segment };
 export default {
-  segment
+  segmentDefinitionClauses
 };

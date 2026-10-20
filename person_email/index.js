@@ -1,7 +1,7 @@
 import schema from './schema.js';
 import extractEmailHashes from './transforms/inbound/extract_identifiers.js';
 import upsertPersonEmail from './transforms/inbound/upsert_tables.js';
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 import appendEmail from './transforms/outbound/appendEmail.js';
 import appendEmailHash from './transforms/outbound/appendEmailHash.js';
 import segments from './segments.js';
@@ -24,12 +24,12 @@ export const transforms = {
 };
 export { metadata };
 export { schema };
-export { search };
+export { segmentDefinitionClauses };
 export { segments };
 export default {
   metadata,
   schema,
-  search,
+  segmentDefinitionClauses,
   segments,
   transforms
 };

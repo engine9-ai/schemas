@@ -74,6 +74,7 @@ export const phones = {
     };
   }
 };
+export const segmentDefinitionClauses = { phones };
 export default {
-  phones
+  segmentDefinitionClauses
 };

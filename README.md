@@ -7,7 +7,7 @@ this code as-is.
 
 ## Documentation
 
-Each schema plugin is documented in its own `README.md`. That file is the human-readable contract: what the schema plugin is for, the data model, inbound/outbound behavior, search, **predefined segments**, and UI. Keep implementation details in code comments; keep audience and membership rules in the README. Dashboards live on `@engine9/plugins/reports/<area>`, not in this package.
+Each schema plugin is documented in its own `README.md`. That file is the human-readable contract: what the schema plugin is for, the data model, inbound/outbound behavior, segment definition clauses, **predefined segments**, and UI. Keep implementation details in code comments; keep audience and membership rules in the README. Dashboards live on `@engine9/plugins/reports/<area>`, not in this package.
 
 Schema plugins with predefined segments:
 
@@ -22,9 +22,9 @@ See [`skills/create-engine9-plugin/SKILL.md`](../skills/create-engine9-plugin/SK
 
 - **Plugin uniqueness:** `SchemaWorker.install` reuses an existing `plugin` row when the path is unique: `metadata.unique` if set, otherwise `@engine9/schemas/*` (except `person_custom`, which is `unique: false`). Native plugins that set `unique: true` behave the same. Third-party plugins and `person_custom` may have more than one instance per path; pass `id` to update an existing non-unique row.
 
-- **Public module surface:** Export only the standard building blocks documented in [`skills/create-engine9-plugin/SKILL.md`](../skills/create-engine9-plugin/SKILL.md): for example `metadata`, optional `schema`, `transforms`, `search`, `segments`, `metrics`, and the default object that aggregates them. Do **not** export `reports` from schema plugins — dashboards belong on `@engine9/plugins/reports/<area>`. Do **not** export ad hoc hooks (such as custom install helpers or segment–plugin wiring) from schema plugins; the server is responsible for any special install-time behavior tied to a specific schema plugin path.
+- **Public module surface:** Export only the standard building blocks documented in [`skills/create-engine9-plugin/SKILL.md`](../skills/create-engine9-plugin/SKILL.md): for example `metadata`, optional `schema`, `transforms`, `segmentDefinitionClauses`, `segments`, `metrics`, and the default object that aggregates them. Do **not** export `reports` from schema plugins — dashboards belong on `@engine9/plugins/reports/<area>`. Do **not** export ad hoc hooks (such as custom install helpers or segment–plugin wiring) from schema plugins; the server is responsible for any special install-time behavior tied to a specific schema plugin path.
 
-- **Segments, universes, and `plugin_id`:** Saved segments use `segment.plugin_id` = the schema plugin (or plugin) that **owns the definition**. A definition’s **`universe`** describes the span of source data searched across; input EQL entries select timeline stores, while person/table entries can restrict eligible people. Explicit `pluginId` values inside `search` options may narrow that span further, so a segment can evaluate data tied to other deployed plugins without changing its owning `plugin_id`. Export bundles use the same universe vocabulary for table and input-file artifacts.
+- **Segments, universes, and `plugin_id`:** Saved segments use `segment.plugin_id` = the schema plugin (or plugin) that **owns the definition**. A definition’s **`universe`** describes the span of source data searched across; input EQL entries select timeline stores, while person/table entries can restrict eligible people. Explicit `pluginId` values inside a clause's options may narrow that span further, so a segment can evaluate data tied to other deployed plugins without changing its owning `plugin_id`. Export bundles use the same universe vocabulary for table and input-file artifacts.
 
 ## License
 

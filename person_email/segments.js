@@ -1,9 +1,9 @@
 export const subscribers = {
   name: 'Email Subscribers',
-  search: {
+  definition: {
     and: [
       {
-        path: '@engine9/schemas/person_email:search:emails',
+        path: '@engine9/schemas/person_email:segment_definition_clause:emails',
         options: {
           subscriptionStatus: 'Subscribed'
         }

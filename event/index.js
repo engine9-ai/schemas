@@ -1,5 +1,5 @@
 import schema from './schema.js';
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 
 const metadata = {
   name: '@engine9/schemas/event',
@@ -9,9 +9,9 @@ const metadata = {
   schemas: ['schema.js']
 };
 
-export { metadata, schema, search };
+export { metadata, schema, segmentDefinitionClauses };
 export default {
   metadata,
   schema,
-  search
+  segmentDefinitionClauses
 };

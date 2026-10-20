@@ -65,6 +65,6 @@ The `upsertPersonHash` transform writes only hash columns to `person_hash_email`
 
 `PersonWorker.search` `emails` / `phones` match `person_email` / `person_phone` when those tables exist, and also hash the query (or accept SHA-256 / MD5 hex) against `person_hash_email` / `person_hash_phone`. If the caller passed emails or phones and neither table exists, the clause matches nobody (`1=0`). Related summaries include `email_hashes` / `phone_hashes` when those tables are present.
 
-The plugin also exports `search.emailHashes` / `search.phoneHashes` for the plugin search tree (`@engine9/schemas/person_hash:search:emailHashes`).
+The plugin exports `segmentDefinitionClauses.emailHashes` and `segmentDefinitionClauses.phoneHashes` for segment definitions (`@engine9/schemas/person_hash:segment_definition_clause:emailHashes`).
 
 Default warehouse export includes the hash tables (export skips them when they do not exist). When utilities/limited-pii `exclude_pii` is set and `tables` is not explicit, `person_name` / `person_email` / `person_phone` / `person_address` are omitted from that default list.

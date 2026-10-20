@@ -3,7 +3,7 @@ import { TIMELINE_ENTRY_TYPES } from '@engine9/input-tools';
 /**
  * Build EQL for email engagement (opens / clicks) within a rolling window.
  *
- * The search always joins `timeline` → `input` on `timeline.input_id = input.id`.
+ * The clause always joins `timeline` → `input` on `timeline.input_id = input.id`.
  * During a segment build the DuckDB `input` table is populated exclusively with
  * the input ids discovered by the segment's `universe` entry (e.g.
  * `universeEmailPublished90d`), so the join scopes results to the universe even
@@ -81,6 +81,7 @@ export const emailEngagement = {
   }
 };
 
+export const segmentDefinitionClauses = { emailEngagement };
 export default {
-  emailEngagement
+  segmentDefinitionClauses
 };

@@ -21,8 +21,7 @@ const transforms = {
   // Saved export definitions still call @engine9/schemas/person:transforms:appendName.
   appendName
 };
-export const search = {
-  person: {
+const person = {
     title: 'Primary Info',
     form: {
       title: 'Primary Info',
@@ -71,8 +70,8 @@ export const search = {
         }
       };
     }
-  }
-};
+  };
+export const segmentDefinitionClauses = { person };
 export { metadata };
 export { schema };
 export { transforms };
@@ -82,5 +81,5 @@ export default {
   schema,
   transforms,
   metrics,
-  search
+  segmentDefinitionClauses
 };

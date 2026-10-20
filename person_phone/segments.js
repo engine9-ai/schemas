@@ -1,6 +1,6 @@
 export const textable = {
   name: 'Textable People',
-  search: {
+  definition: {
     and: [
       {
         table: 'person_phone',

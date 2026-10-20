@@ -46,6 +46,7 @@ export const responses = {
   }
 };
 
+export const segmentDefinitionClauses = { responses };
 export default {
-  responses
+  segmentDefinitionClauses
 };

@@ -1,5 +1,5 @@
 import schema from './schema.js';
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 import segments from './segments.js';
 import extractPhoneHashes from './transforms/inbound/extract_identifiers.js';
 import upsertPersonPhone from './transforms/inbound/upsert_tables.js';
@@ -22,12 +22,12 @@ export const transforms = {
 };
 export { metadata };
 export { schema };
-export { search };
+export { segmentDefinitionClauses };
 export { segments };
 export default {
   metadata,
   schema,
   transforms,
-  search,
+  segmentDefinitionClauses,
   segments
 };

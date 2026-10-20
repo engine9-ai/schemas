@@ -14,8 +14,7 @@ const metadata = {
     upsert: ['upsertPersonRemote']
   }
 };
-export const search = {
-  all: {
+const all = {
     title: 'Remote people',
     name: 'All remote people',
     form: {
@@ -39,8 +38,8 @@ export const search = {
         }
       ]
     })
-  }
-};
+  };
+export const segmentDefinitionClauses = { all };
 export const transforms = {
   extractRemotePersonIds,
   upsertPersonRemote,
@@ -53,6 +52,6 @@ export default {
   metadata,
   schema,
   metrics,
-  search,
+  segmentDefinitionClauses,
   transforms
 };

@@ -80,7 +80,7 @@ export const phoneHashes = {
   }
 };
 
+export const segmentDefinitionClauses = { emailHashes, phoneHashes };
 export default {
-  emailHashes,
-  phoneHashes
+  segmentDefinitionClauses
 };

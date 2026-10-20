@@ -1,4 +1,4 @@
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 import segments, { personSegmentTableName, universeEmailPublished90d } from './segments.js';
 
 const metadata = {
@@ -9,13 +9,13 @@ const metadata = {
 };
 
 export { metadata };
-export { search };
+export { segmentDefinitionClauses };
 export { segments };
 export { personSegmentTableName };
 export { universeEmailPublished90d };
 export default {
   metadata,
-  search,
+  segmentDefinitionClauses,
   segments,
   personSegmentTableName,
   universeEmailPublished90d

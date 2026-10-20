@@ -1,5 +1,5 @@
 import schema from './schema.js';
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 import upsert from './transforms/inbound/upsert.js';
 const metadata = {
   name: '@engine9/schemas/segment',
@@ -12,10 +12,10 @@ export const transforms = {
 };
 export { metadata };
 export { schema };
-export { search };
+export { segmentDefinitionClauses };
 export default {
   metadata,
   schema,
-  search,
+  segmentDefinitionClauses,
   transforms
 };

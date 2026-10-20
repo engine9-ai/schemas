@@ -1,6 +1,6 @@
 # Transaction Core Schema Plugin
 
-The `@engine9/schemas/transaction/core` plugin stores payment and gift transactions for people and provides the common transaction search, metrics, and segment used by imports, reports, and exports.
+The `@engine9/schemas/transaction/core` plugin stores payment and gift transactions for people and provides the common transaction segment definition clauses, metrics, and segment used by imports, reports, and exports.
 
 It depends on `@engine9/schemas/person` because every transaction belongs to a person through `person_id`.
 
@@ -53,10 +53,10 @@ The inbound `upsert` transform writes rows to `transaction`.
 
 `appendTransactionSummary` looks up a person's transactions and attaches summary fields such as count, revenue, first/last/smallest/largest gifts, and recurring totals.
 
-## Search
+## Segment definition clauses
 
-- `all` finds people who have any transaction, optionally filtered by `plugin_id` and a `start` / `end` window on `ts` (ISO datetimes or relative expressions such as `-30d`).
-- `minimum` finds people who have a transaction of at least a given `amount`.
+- `all` selects people who have any transaction, optionally filtered by `plugin_id` and a `start` / `end` window on `ts` (ISO datetimes or relative expressions such as `-30d`).
+- `minimum` selects people who have a transaction of at least a given `amount`.
 
 ## Metrics
 
@@ -74,7 +74,7 @@ Predefined audiences shipped with this schema plugin. On install, each key becom
 | **Definition path** | `@engine9/schemas/transaction/core:segments:customers` |
 | **Who is included** | People who have at least one row in `transaction` |
 | **Who is excluded** | People with no transactions |
-| **How it is built** | A `transaction` table search that selects `person_id` with no extra filters |
+| **How it is built** | The `all` clause, which selects `person_id` from `transaction` with no extra filters |
 | **Universe** | None — any transaction from any plugin, date, or amount counts |
 
 Refunds, recurring gifts, and $0 rows are not filtered out. If a person has ever appeared on a transaction row, they are a customer.

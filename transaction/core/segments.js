@@ -1,6 +1,6 @@
 export const customers = {
   name: 'Customers',
-  search: {
+  definition: {
     and: [
       {
         table: 'transaction',

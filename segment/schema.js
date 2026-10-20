@@ -23,15 +23,15 @@ export const tables = [
       category: 'string', // A arbitrary type, user facing, not to be used for logic
       definition_path: 'string', // a definition file path, will be used for configuring
       stars: 'int', //number of stars, good for UI organizing
-      search: 'json',
+      definition: 'json',
       build_type: {
         type: 'enum',
         nullable: false,
         default_value: 'list',
         values: [
           'list', //static list of people
-          'search', // built by the defined search
-          'scheduled_search', // built on a schedule by the search
+          'definition', // built by the segment definition
+          'scheduled_definition', // built on a schedule by the segment definition
           'remote_count', // no person records, just counts, pulled from remote site
           'remote', // pulled from remote plugin site
           'manual' // created outside normal processing

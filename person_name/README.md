@@ -54,9 +54,9 @@ Primary key: `person_id`.
 
 `@engine9/schemas/person:transforms:appendName` is the same transform, kept so saved export definitions keep working.
 
-## Search
+## Segment definition clauses
 
-`names` matches people by `given_name` and/or `family_name` with `LIKE`. Searching with neither finds everyone who has a name row.
+`names` matches people by `given_name` and/or `family_name` with `LIKE`. With neither, it selects everyone who has a name row.
 
 ## Upgrading accounts created before this plugin
 

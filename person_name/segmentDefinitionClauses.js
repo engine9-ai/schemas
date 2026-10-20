@@ -42,6 +42,7 @@ export const names = {
     };
   }
 };
+export const segmentDefinitionClauses = { names };
 export default {
-  names
+  segmentDefinitionClauses
 };

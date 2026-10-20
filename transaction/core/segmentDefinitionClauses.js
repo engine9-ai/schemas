@@ -81,7 +81,7 @@ export const minimum = {
     conditions: [`amount>=${parseFloat(options.amount)}`]
   })
 };
+export const segmentDefinitionClauses = { all, minimum };
 export default {
-  all,
-  minimum
+  segmentDefinitionClauses
 };

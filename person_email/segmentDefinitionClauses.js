@@ -56,6 +56,7 @@ export const emails = {
     };
   }
 };
+export const segmentDefinitionClauses = { emails };
 export default {
-  emails
+  segmentDefinitionClauses
 };

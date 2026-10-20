@@ -1,7 +1,7 @@
 import schema from './schema.js';
 import upsertPersonName from './transforms/inbound/upsert_tables.js';
 import appendName from './transforms/outbound/appendName.js';
-import search from './search.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 const metadata = {
   name: '@engine9/schemas/person_name',
   unique: true,
@@ -19,10 +19,10 @@ export const transforms = {
 };
 export { metadata };
 export { schema };
-export { search };
+export { segmentDefinitionClauses };
 export default {
   metadata,
   schema,
-  search,
+  segmentDefinitionClauses,
   transforms
 };

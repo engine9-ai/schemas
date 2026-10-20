@@ -1,4 +1,4 @@
-const SEGMENT_SEARCH_PATH = '@engine9/schemas/channels/email:search:emailEngagement';
+const EMAIL_ENGAGEMENT_CLAUSE_PATH = '@engine9/schemas/channels/email:segment_definition_clause:emailEngagement';
 
 /**
  * EQL over the message table: rows published in the last 90 days on the email channel.
@@ -6,12 +6,12 @@ const SEGMENT_SEARCH_PATH = '@engine9/schemas/channels/email:search:emailEngagem
  * scanned for timeline parquet.
  *
  * During a segment build the input ids returned here are copied into the DuckDB `input`
- * table.  The search EQL (see `emailEngagement` in `search.js`) always joins
+ * table.  The clause EQL (see `emailEngagement` in `segmentDefinitionClauses.js`) always joins
  * `timeline.input_id = input.id`, so only timeline rows whose input is in **this**
  * universe are considered — even when `pluginId` is empty.  This means:
  *
  * - The **universe** controls *which* message/input stores supply timeline data.
- * - The **search** applies time-window and entry-type filters *within* that scope.
+ * - The **clause** applies time-window and entry-type filters *within* that scope.
  *
  * Both layers are required for correct segment membership counts.
  */
@@ -35,7 +35,7 @@ export function personSegmentTableName(tablePrefix, segmentName) {
 /**
  * Build a segment definition for email engagement (opens or clicks).
  *
- * `pluginId` is left empty intentionally: the search handler in `search.js`
+ * `pluginId` is left empty intentionally: the `emailEngagement` clause
  * always joins `timeline` → `input`, and the segment `universe` determines
  * which input rows are present in DuckDB.  This scopes the time-window query
  * to the correct set of message inputs without hard-coding a plugin id.
@@ -44,10 +44,10 @@ function emailEngagementSegment(name, windowDays, timelineEntryType) {
   return {
     name,
     universe: [universeEmailPublished90d],
-    search: {
+    definition: {
       and: [
         {
-          path: SEGMENT_SEARCH_PATH,
+          path: EMAIL_ENGAGEMENT_CLAUSE_PATH,
           options: {
             pluginId: '',
             windowDays,
@@ -61,7 +61,7 @@ function emailEngagementSegment(name, windowDays, timelineEntryType) {
 
 /**
  * Rolling-window engagement segments.  `pluginId` is empty so scope follows the
- * segment `universe` (the `input` table join in the search EQL restricts to
+ * segment `universe` (the `input` table join in the clause EQL restricts to
  * universe-provided message input ids).
  */
 export const email_openers_30d = emailEngagementSegment('30-day email openers', 30, 'EMAIL_OPEN');

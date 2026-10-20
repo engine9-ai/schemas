@@ -56,11 +56,11 @@ None in this package. Native event / calendar plugins should upsert `event` and 
 
 None.
 
-## Search
+## Segment definition clauses
 
 | Key | Path | Purpose |
 | --- | --- | --- |
-| `responses` | `@engine9/schemas/event:search:responses` | Filter people by `person_event.response` and optional `eventId`. |
+| `responses` | `@engine9/schemas/event:segment_definition_clause:responses` | Filter people by `person_event.response` and optional `eventId`. |
 
 ## Segments
 

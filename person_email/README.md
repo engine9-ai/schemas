@@ -51,9 +51,9 @@ The plugin provides outbound transforms for appending email data to batches:
 - `appendEmail` looks up `person_email` rows by `person_id` and appends `email` to each batch row. It can be filtered by `subscriptionStatus`, and it preserves any existing `email` value already on the row.
 - `appendEmailHash` appends `email_hash_v1` by hashing the row's trimmed, lowercased `email` when the hash is not already present.
 
-## Search
+## Segment definition clauses
 
-The `emails` search lets users find people who have an email address, optionally filtered by:
+The `emails` clause selects people who have an email address, optionally filtered by:
 
 - `subscriptionStatus`, using the same values as `subscription_status`
 - `emailMatch`, matched against the `email` column with `LIKE`
@@ -70,7 +70,7 @@ Predefined audiences shipped with this schema plugin. On install, each key becom
 | **Definition path** | `@engine9/schemas/person_email:segments:subscribers` |
 | **Who is included** | People with at least one email whose `subscription_status` is `Subscribed` |
 | **Who is excluded** | People whose emails are only `Not Subscribed`, `Unsubscribed`, `Bouncing`, or `Spam` |
-| **How it is built** | The `emails` search with `subscriptionStatus: Subscribed` |
+| **How it is built** | The `emails` clause with `subscriptionStatus: Subscribed` |
 | **Universe** | None — membership is current `person_email` rows, not a time window or message input set |
 
 A person with mixed statuses is included if any of their addresses is `Subscribed`.
