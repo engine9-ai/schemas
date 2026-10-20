@@ -1,5 +1,15 @@
 import { relativeDate, isValidDate } from '@engine9/input-tools';
 
+function blank(value) {
+  return value == null || String(value).trim() === '';
+}
+
+function amountOption(name, value) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) throw new Error(`Invalid ${name}: ${value}`);
+  return n;
+}
+
 export const all = {
   title: 'Transactions',
   form: {
@@ -7,7 +17,9 @@ export const all = {
     type: 'object',
     properties: {
       plugin_id: {
-        type: 'string'
+        title: 'Plugin',
+        type: 'string',
+        resolveOptionsUsing: 'plugin'
       },
       start: {
         title: 'Start',
@@ -20,12 +32,22 @@ export const all = {
         type: 'string',
         description:
           'Optional; only include rows with ts < end (exclusive upper bound). Parsed with relativeDate; supports ISO datetimes or relative expressions.'
+      },
+      minAmount: {
+        title: 'Minimum amount',
+        type: 'number',
+        description: 'Optional; only include rows with amount >= minAmount.'
+      },
+      maxAmount: {
+        title: 'Maximum amount',
+        type: 'number',
+        description: 'Optional; only include rows with amount <= maxAmount.'
       }
     },
     required: []
   },
   optionsToEQL: (options) => {
-    const { plugin_id, start, end } = options;
+    const { plugin_id, start, end, minAmount, maxAmount } = options;
     const conditions = [];
     let text = 'Has any transactions';
     if (plugin_id) {
@@ -44,6 +66,16 @@ export const all = {
       conditions.push(`transaction.ts<'${e.toISOString()}'`);
       text += ` with ts < ${e.toISOString()}`;
     }
+    if (!blank(minAmount)) {
+      const min = amountOption('minAmount', minAmount);
+      conditions.push(`transaction.amount>=${min}`);
+      text += ` with amount >= ${min}`;
+    }
+    if (!blank(maxAmount)) {
+      const max = amountOption('maxAmount', maxAmount);
+      conditions.push(`transaction.amount<=${max}`);
+      text += ` with amount <= ${max}`;
+    }
     return {
       text,
       eql: {
@@ -60,28 +92,7 @@ export const all = {
     };
   }
 };
-export const minimum = {
-  title: 'Minimum transaction amount',
-  form: {
-    title: 'Minimum transaction amount',
-    type: 'object',
-    properties: {
-      amount: {
-        type: 'number'
-      },
-      filterType: {
-        type: 'string'
-      }
-    },
-    required: []
-  },
-  optionsToEQL: (options) => ({
-    table: 'transaction',
-    columns: ['person_id'],
-    conditions: [`amount>=${parseFloat(options.amount)}`]
-  })
-};
-export const segmentDefinitionClauses = { all, minimum };
+export const segmentDefinitionClauses = { all };
 export default {
   segmentDefinitionClauses
 };

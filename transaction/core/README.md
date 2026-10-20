@@ -55,8 +55,7 @@ The inbound `upsert` transform writes rows to `transaction`.
 
 ## Segment definition clauses
 
-- `all` selects people who have any transaction, optionally filtered by `plugin_id` and a `start` / `end` window on `ts` (ISO datetimes or relative expressions such as `-30d`).
-- `minimum` selects people who have a transaction of at least a given `amount`.
+- `all` selects people who have any transaction, optionally filtered by `plugin_id`, a `start` / `end` window on `ts` (ISO datetimes or relative expressions such as `-30d`), and `minAmount` / `maxAmount` (inclusive) on `amount`. Every filter applies to the same transaction, so `{ start: '2026-01-01', minAmount: 100 }` is one gift of at least 100 this year.
 
 ## Metrics
 

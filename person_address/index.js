@@ -2,6 +2,7 @@ import upsertPersonAddress from './transforms/inbound/upsert_tables.js';
 import normalize from './transforms/inbound/normalize.js';
 import appendAddress from './transforms/outbound/appendAddress.js';
 import schema from './schema.js';
+import { segmentDefinitionClauses } from './segmentDefinitionClauses.js';
 
 const metadata = {
   name: '@engine9/schemas/person_address',
@@ -23,8 +24,10 @@ export const transforms = {
 
 export { metadata };
 export { schema };
+export { segmentDefinitionClauses };
 export default {
   metadata,
   schema,
-  transforms
+  transforms,
+  segmentDefinitionClauses
 };

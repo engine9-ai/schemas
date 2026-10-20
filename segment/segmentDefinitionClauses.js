@@ -6,8 +6,8 @@ export const segment = {
     properties: {
       segmentId: {
         title: 'Segment',
-        description: '',
-        type: 'string'
+        type: 'string',
+        resolveOptionsUsing: 'segment'
       }
     },
     required: []

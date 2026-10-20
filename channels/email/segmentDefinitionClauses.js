@@ -60,8 +60,9 @@ export const emailEngagement = {
     type: 'object',
     properties: {
       pluginId: {
-        title: 'Plugin ID',
-        type: 'string'
+        title: 'Plugin',
+        type: 'string',
+        resolveOptionsUsing: 'plugin'
       },
       windowDays: {
         title: 'Window (days)',
