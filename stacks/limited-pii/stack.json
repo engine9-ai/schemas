@@ -8,8 +8,8 @@
     "@engine9/schemas/person",
     "@engine9/schemas/person_remote",
     "@engine9/schemas/segment",
-    "@engine9/schemas/timeline",
     "@engine9/schemas/source_code",
+    "@engine9/schemas/timeline",
     "@engine9/schemas/transaction/core",
     "@engine9/schemas/person_hash"
   ],

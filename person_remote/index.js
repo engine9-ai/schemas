@@ -15,10 +15,10 @@ const metadata = {
   }
 };
 const all = {
-    title: 'Remote people',
-    name: 'All remote people',
+    title: 'Remote Ids',
+    name: 'All remote ids',
     form: {
-      title: 'Remote people',
+      title: 'Remote Ids',
       type: 'object',
       properties: {
         pluginId: {

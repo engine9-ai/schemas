@@ -12,8 +12,8 @@
     "@engine9/schemas/person_email",
     "@engine9/schemas/person_phone",
     "@engine9/schemas/person_address",
-    "@engine9/schemas/timeline",
     "@engine9/schemas/source_code",
+    "@engine9/schemas/timeline",
     "@engine9/schemas/transaction/core",
     "@engine9/schemas/transaction/contact_details"
   ],

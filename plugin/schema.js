@@ -35,7 +35,7 @@ export const tables = [
       id: 'id_uuid',
       plugin_id: 'foreign_uuid',
       name: 'string',
-      value: 'string',
+      value: 'text',
       created_at: 'created_at',
       modified_at: 'modified_at'
     },

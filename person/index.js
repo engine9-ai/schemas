@@ -22,9 +22,9 @@ const transforms = {
   appendName
 };
 const person = {
-    title: 'Primary Info',
+    title: 'Ids',
     form: {
-      title: 'Primary Info',
+      title: 'Ids',
       type: 'object',
       properties: {
         ids: {

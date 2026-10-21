@@ -12,6 +12,11 @@ test('standard stack includes plaintext contact plugins and does not exclude the
   assert.ok(standard.include.includes('@engine9/schemas/person_address'));
   assert.ok(standard.include.includes('@engine9/schemas/timeline'));
   assert.ok(standard.include.includes('@engine9/schemas/source_code'));
+  assert.ok(
+    standard.include.indexOf('@engine9/schemas/source_code') <
+      standard.include.indexOf('@engine9/schemas/timeline'),
+    'source_code must install before timeline (timeline depends on it)'
+  );
   assert.ok(standard.include.includes('@engine9/schemas/transaction/core'));
   assert.ok(!standard.include.includes('@engine9/plugins/reports/people'));
   assert.deepEqual(standard.exclude, []);
