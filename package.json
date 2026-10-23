@@ -1,6 +1,9 @@
 {
   "name": "@engine9/schemas",
-  "version": "1.11.3",
+  "version": "1.11.4",
+  "publishConfig": {
+    "access": "public"
+  },
   "type": "module",
   "description": "Engine9 standard schemas: shared tables, transforms, searches, and segments",
   "main": "index.js",
