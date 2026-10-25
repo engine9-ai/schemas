@@ -5,7 +5,7 @@
 Names are personal data, so they are not on `person`. `person` holds only the id and timestamps, and every account installs it. An account that must not store names leaves this plugin out, the same way it leaves out `person_email`, `person_phone`, and `person_address`.
 
 - The standard stack (`@engine9/schemas/stacks/standard`) and the no-argument `installDefaultPlugins()` install it.
-- The limited-pii stack (`@engine9/schemas/stacks/limited-pii`) excludes it. With `exclude_pii` set on `@engine9/schemas/utilities/limited-pii`, core refuses to install it.
+- The limited-pii stack (`@engine9/schemas/stacks/limited-pii`) does not include it. With `exclude_pii` set on `@engine9/schemas/utilities/limited-pii`, core refuses to install it.
 
 ## Install
 

@@ -1,6 +1,6 @@
 {
   "name": "@engine9/schemas",
-  "version": "1.11.4",
+  "version": "1.11.5",
   "publishConfig": {
     "access": "public"
   },

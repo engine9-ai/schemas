@@ -8,7 +8,7 @@ It depends on `@engine9/schemas/person` because every transaction belongs to a p
 
 The plugin creates the `transaction` table. Each row is a dated amount tied to a person, an input, and optional source-code / message attribution.
 
-The payer's name, email, phone, and address are not part of this plugin. `@engine9/schemas/transaction/contact_details` adds those columns to `transaction`; the limited-pii stack excludes it.
+The payer's name, email, phone, and address are not part of this plugin. `@engine9/schemas/transaction/contact_details` adds those columns to `transaction`; the limited-pii stack does not include it, and `exclude_pii` refuses it.
 
 | Field | Type | Description |
 | --- | --- | --- |

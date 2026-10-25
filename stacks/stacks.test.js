@@ -22,17 +22,17 @@ test('standard stack includes plaintext contact plugins and does not exclude the
   assert.deepEqual(standard.exclude, []);
 });
 
-test('limited-pii stack includes person_hash and excludes plaintext contact plugins', () => {
+test('limited-pii stack includes person_hash and omits plaintext contact plugins', () => {
   assert.equal(limitedPii.name, '@engine9/schemas/stacks/limited-pii');
   assert.ok(limitedPii.include.includes('@engine9/schemas/person_hash'));
-  for (const path of ['@engine9/schemas/person_name', '@engine9/schemas/transaction/contact_details']) {
+  for (const path of [
+    '@engine9/schemas/person_name',
+    '@engine9/schemas/transaction/contact_details',
+    '@engine9/schemas/person_email',
+    '@engine9/schemas/person_phone',
+    '@engine9/schemas/person_address'
+  ]) {
     assert.ok(!limitedPii.include.includes(path), `${path} is not included`);
-    assert.ok(limitedPii.exclude.includes(path), `${path} is excluded`);
   }
-  assert.ok(!limitedPii.include.includes('@engine9/schemas/person_email'));
-  assert.ok(!limitedPii.include.includes('@engine9/schemas/person_phone'));
-  assert.ok(!limitedPii.include.includes('@engine9/schemas/person_address'));
-  assert.ok(limitedPii.exclude.includes('@engine9/schemas/person_email'));
-  assert.ok(limitedPii.exclude.includes('@engine9/schemas/person_phone'));
-  assert.ok(limitedPii.exclude.includes('@engine9/schemas/person_address'));
+  assert.deepEqual(limitedPii.exclude, [], 'refusal is exclude_pii, not stack exclude');
 });

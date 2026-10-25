@@ -3,7 +3,7 @@ import { settings } from './settings.js';
 const metadata = {
   name: '@engine9/schemas/utilities/limited-pii',
   description:
-    'On-demand PII controls: exclude_pii steers installDefaultPlugins and default export table lists without installing the limited-pii stack by itself.',
+    'On-demand PII controls: exclude_pii is the account PII-free setting (installs, imports, exports, reports). It steers installDefaultPlugins to the limited-pii stack without installing that stack by itself.',
   unique: true
 };
 

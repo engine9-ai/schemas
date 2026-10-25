@@ -4,7 +4,7 @@
 
 It is **not** part of the standard stack. It ships in `@engine9/schemas/stacks/limited-pii`, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
 
-Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` makes `installDefaultPlugins()` prefer the limited-pii stack over `default_stack` and refuses `@engine9/schemas/stacks/standard`, `person_name`, `person_email`, `person_phone`, `person_address`, and `transaction/contact_details` even if those plugins are already installed. That does **not** uninstall leftover plaintext tables. Install the utility plugin on demand; it is not part of the limited-pii stack.
+Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` is the one check core and the server read for PII-free. When true, `installDefaultPlugins()` prefers the limited-pii stack over `default_stack`, refuses `@engine9/schemas/stacks/standard`, `person_name`, `person_email`, `person_phone`, `person_address`, and `transaction/contact_details`, and skips those plugins in the inbound weave. That does **not** uninstall leftover plaintext tables. The limited-pii stack is an install list only. Install the utility plugin on demand; it is not part of the stack.
 
 It does **not** depend on `person_email` or `person_phone`. Those plugins may be installed alongside it; this schema plugin never writes to their tables.
 
