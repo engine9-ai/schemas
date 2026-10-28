@@ -1,5 +1,32 @@
 # Release notes: @engine9/schemas
 
+## 1.13.0: the upgrades move here from `@engine9/core`
+
+`@engine9/core` 1.17.0 carries no upgrades. Each plugin declares its own,
+and `e9core upgrade` runs them (core `docs/plugin-upgrades.md`). The four
+upgrades core carried are now here, with the same ids, options, and results:
+
+| Upgrade | Plugin | File |
+| --- | --- | --- |
+| `person_name`: copy `person.given_name` / `family_name` into `person_name` | `@engine9/schemas/person` | `person/upgrades.js` |
+| `person_name_columns` (opt-in `drop_name_columns`, with `discard_names`) | `@engine9/schemas/person` | `person/upgrades.js` |
+| `setting_value_text`: widen `setting.value` to text | `@engine9/schemas/plugin` | `plugin/upgrades.js` |
+| `plugin_history` (opt-in `drop_plugin_history`): drop the retired table when empty | `@engine9/schemas/plugin` | `plugin/upgrades.js` |
+
+Each has a `shouldUpgrade` that answers from the schema alone, so
+`e9core status` reads data only for an upgrade that applies. The package's
+upgrade window is `UPGRADE_FROM` (1.9.0) in `plugin/upgrades.js`; both
+plugins export it as `upgradeFrom`.
+
+### What a site changes
+
+| Where | Find | Change to |
+| --- | --- | --- |
+| `package.json` | `@engine9/schemas` 1.12.x with `@engine9/core` 1.17.0 | `^1.13.0`. Core 1.17.0 finds no upgrades in 1.12.x |
+| Code that reads `PluginWorker.upgrade` results by position | `upgrades[0]` | `upgrades.find((u) => u.id === 'person_name')`. Upgrades are listed by plugin, `@engine9/schemas/plugin` first |
+
+Pair with `@engine9/core` 1.17.0+.
+
 ## 1.12.0: `plugin_history` is retired; `plugin` records the last install
 
 `@engine9/schemas/plugin` no longer declares the `plugin_history` table.

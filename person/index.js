@@ -4,6 +4,8 @@ import normalizeFieldNames from './transforms/inbound/normalize_field_names.js';
 import simpleMap from './transforms/simpleMap.js';
 import appendName from '../person_name/transforms/outbound/appendName.js';
 import metrics from './metrics.js';
+import { upgrades } from './upgrades.js';
+import { UPGRADE_FROM as upgradeFrom } from '../plugin/upgrades.js';
 const metadata = {
   name: '@engine9/schemas/person',
   schemas: ['schema.js'],
@@ -15,7 +17,7 @@ const metadata = {
 const transforms = {
   normalizeFieldNames,
   // Not woven. Plugin rows installed before person_name still name it in their
-  // inbound snapshot until the person_name upgrade refreshes that snapshot.
+  // inbound snapshot until the person_name upgrade (./upgrades.js) refreshes that snapshot.
   upsertPerson,
   simpleMap,
   // Saved export definitions still call @engine9/schemas/person:transforms:appendName.
@@ -76,10 +78,14 @@ export { metadata };
 export { schema };
 export { transforms };
 export { metrics };
+export { upgrades, upgradeFrom };
 export default {
   metadata,
   schema,
   transforms,
   metrics,
-  segmentDefinitionClauses
+  segmentDefinitionClauses,
+  // Run by @engine9/core's e9core upgrade and checked by e9core status, never on install or a request.
+  upgrades,
+  upgradeFrom
 };
