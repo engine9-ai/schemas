@@ -1,5 +1,36 @@
 # Release notes: @engine9/schemas
 
+## 1.12.0: `plugin_history` is retired; `plugin` records the last install
+
+`@engine9/schemas/plugin` no longer declares the `plugin_history` table.
+Nothing wrote to it. The history of plugin installs is now the audit log in
+`@engine9/core` 1.17.0 (`plugin.install` records, with the schema changes
+each install applied).
+
+A new database does not create the table. An existing database keeps it:
+dropping a table from a schema never drops it from a database. `@engine9/core`
+1.17.0 has an opt-in upgrade that drops it when it is empty. The name stays
+reserved and is never reused.
+
+The `plugin` table gains three columns that `@engine9/core` 1.17.0 writes on
+every install: `last_install_at`, `last_install_status` (`ok` or
+`failed`), and `last_install` (JSON: the step it stopped at, the error, what
+ran it, package versions). The additive change deploys with
+`npx e9core upgrade`.
+
+### What a site changes
+
+| Where | Find | Change to |
+| --- | --- | --- |
+| Queries or reports | `plugin_history` | The audit log's `plugin.install` records |
+| An existing database | The `plugin_history` table | Nothing, or drop it: `npx e9core upgrade --url <site> --drop-plugin-history` (refuses while it has rows) |
+| SQL files that create the standard tables | `create table … "plugin_history"` | Remove it |
+| SQL files that create the standard tables | `create table … "plugin"` | Add `last_install_at`, `last_install_status`, `last_install` |
+| An existing database | The `plugin` table | `npx e9core upgrade --url <site>` adds the columns |
+| `package.json` | `@engine9/input-tools` below `^2.7.0` | Nothing: npm installs `^2.7.0` (MIT) with this release. It holds the one copy of the value and id helpers core also uses |
+
+Pair with `@engine9/core` 1.17.0+.
+
 ## 1.11.5: limited-pii stack is an install list only
 
 `@engine9/schemas/stacks/limited-pii` no longer declares `metadata.exclude`.

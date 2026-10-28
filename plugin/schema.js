@@ -1,3 +1,7 @@
+/*
+  The plugin_history table name is retired and stays reserved: do not reuse it.
+  Plugin install history is the audit log (@engine9/core, plugin.install).
+*/
 export const tables = [
   {
     name: 'plugin',
@@ -10,6 +14,10 @@ export const tables = [
       remote_plugin_id: 'string',
       schema: 'json', // Not all plugins need to support file based schemas, like per-account custom fields
       transforms: 'json', // Not all plugins need to support file based transforms, like per-account custom fields
+      // The plugin's last install (@engine9/core): when, ok or failed, and the step, error, and versions
+      last_install_at: 'datetime',
+      last_install_status: 'string',
+      last_install: 'json',
       created_at: 'created_at',
       modified_at: 'modified_at'
     },
@@ -17,17 +25,6 @@ export const tables = [
       { columns: 'id', primary: true },
       { columns: 'remote_plugin_id', unique: true }
     ]
-  },
-  {
-    name: 'plugin_history',
-    columns: {
-      id: 'id_uuid',
-      plugin_id: 'id_uuid', // can't be null, must have a value
-      path: 'string',
-      created_at: 'created_at',
-      modified_at: 'modified_at'
-    },
-    indexes: [{ columns: 'id', primary: true }]
   },
   {
     name: 'setting',
