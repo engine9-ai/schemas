@@ -60,7 +60,7 @@ function countUncopied(worker, columns) {
   );
 }
 
-/* PII-free: exclude_pii on utilities/limited-pii (core reads it into ctx.account). The stack is not a signal. */
+/* PII-free: exclude_pii on utilities/limited-pii (core reads it into ctx.account). No installed edition is a signal. */
 async function inspect(worker, piiFree) {
   const desc = await describePerson(worker);
   if (!desc) return null;
@@ -123,7 +123,7 @@ export async function upgradePersonName({ sqlWorker: worker, account, dryRun }) 
   let blocked = null;
   if (pending && state.personIsView) blocked = VIEW_BLOCKED;
   else if (pending && !state.personInstalled) {
-    blocked = `The person table exists but the ${PERSON_PATH} plugin is not installed, so ${PERSON_NAME_PATH} cannot be installed. Install the account's stack (or ${PERSON_PATH}), then re-run.`;
+    blocked = `The person table exists but the ${PERSON_PATH} plugin is not installed, so ${PERSON_NAME_PATH} cannot be installed. Install ${PERSON_PATH} (npx e9core upgrade installs the required plugins), then re-run.`;
   }
   const plan = [];
   if (pending) {

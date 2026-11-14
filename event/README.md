@@ -1,6 +1,6 @@
 # Event Schema Plugin
 
-`@engine9/schemas/event` is the shared calendar-style event contract: an `event` row plus `person_event` RSVP / attendance links. Install on accounts that need events; it is not part of the standard stack.
+`@engine9/schemas/event` is the shared calendar-style event contract: an `event` row plus `person_event` RSVP / attendance links. Install on accounts that need events; it is not a required plugin and no edition includes it.
 
 Depends on `@engine9/schemas/person` because every `person_event` row belongs to a person through `person_id`.
 

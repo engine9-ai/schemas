@@ -2,9 +2,9 @@
 
 `@engine9/schemas/person_hash` stores **pseudonymous match keys** for email and phone — SHA-256 (`*_hash_v1`) and MD5 (`*_hash_md5`) — without storing the plaintext.
 
-It is **not** part of the standard stack. It ships in `@engine9/schemas/stacks/limited-pii`, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
+It is **not** part of the contact edition. The pii-free edition (`@engine9/schemas/editions/pii-free`) includes it, or install it explicitly (once per account — `unique: true`). Once installed, core weaves its transforms into the inbound people pipeline automatically.
 
-Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` is the one check core and the server read for PII-free. When true, `installDefaultPlugins()` prefers the limited-pii stack over `default_stack`, refuses `@engine9/schemas/stacks/standard`, `person_name`, `person_email`, `person_phone`, `person_address`, and `transaction/contact_details`, and skips those plugins in the inbound weave. That does **not** uninstall leftover plaintext tables. The limited-pii stack is an install list only. Install the utility plugin on demand; it is not part of the stack.
+Warehouse plugin setting `exclude_pii` on `@engine9/schemas/utilities/limited-pii` is the one check core and the server read for PII-free. When true, core refuses `person_name`, `person_email`, `person_phone`, `person_address`, and `transaction/contact_details`, and any plugin that includes one (such as `editions/contact`), and skips those plugins in the inbound weave. That does **not** uninstall leftover plaintext tables. The setting does not install `person_hash` or choose an edition: an account can be PII-free without hashes. Install the utility plugin on demand; it is not part of any edition.
 
 It does **not** depend on `person_email` or `person_phone`. Those plugins may be installed alongside it; this schema plugin never writes to their tables.
 
@@ -12,8 +12,8 @@ It does **not** depend on `person_email` or `person_phone`. Those plugins may be
 
 ```javascript
 await pluginWorker.install({ path: '@engine9/schemas/person_hash' });
-// or the PII-free stack
-await pluginWorker.installDefaultPlugins({ path: '@engine9/schemas/stacks/limited-pii' });
+// or the pii-free edition, which includes it
+await pluginWorker.install({ path: '@engine9/schemas/editions/pii-free' });
 ```
 
 A second install of the same path reuses the existing plugin row.

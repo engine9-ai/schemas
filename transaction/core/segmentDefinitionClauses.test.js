@@ -21,3 +21,34 @@ test('blank amounts are ignored and invalid amounts throw', () => {
   assert.throws(() => all.optionsToEQL({ minAmount: 'abc' }), /Invalid minAmount: abc/);
   assert.throws(() => all.optionsToEQL({ maxAmount: '1; drop table person' }), /Invalid maxAmount/);
 });
+
+test('sourceCode joins final_source_code_id and matches the dictionary', () => {
+  const { text, eql } = all.optionsToEQL({ sourceCode: 'AU_TEST' });
+  assert.equal(text, 'Has any transactions with source code AU_TEST');
+  assert.deepEqual(eql.joins, [
+    { table: 'input', join_eql: 'transaction.input_id=input.id' },
+    {
+      table: 'source_code_dictionary',
+      join_eql: 'transaction.final_source_code_id=source_code_dictionary.source_code_id'
+    }
+  ]);
+  assert.deepEqual(eql.conditions, [
+    {
+      type: 'EQUALS',
+      values: [{ ref: { column: 'source_code' } }, { value: { value: 'AU_TEST' } }]
+    }
+  ]);
+});
+
+test('sourceCode uses LIKE when the value contains %', () => {
+  const { text, eql } = all.optionsToEQL({ sourceCode: 'AUTH_%' });
+  assert.equal(text, 'Has any transactions with source code matching AUTH_%');
+  assert.equal(eql.conditions[0].type, 'LIKE');
+  assert.equal(eql.conditions[0].values[1].value.value, 'AUTH_%');
+});
+
+test('blank sourceCode does not join the dictionary', () => {
+  const { eql } = all.optionsToEQL({ sourceCode: '  ' });
+  assert.deepEqual(eql.joins, [{ table: 'input', join_eql: 'transaction.input_id=input.id' }]);
+  assert.deepEqual(eql.conditions, []);
+});

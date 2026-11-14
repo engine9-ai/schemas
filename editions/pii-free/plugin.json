@@ -1,0 +1,11 @@
+{
+  "name": "@engine9/schemas/editions/pii-free",
+  "description": "PII-free edition: hashed email and phone identifiers instead of plaintext names, email, phone, or postal address, remote ids, timeline, and transactions. Adds to the required plugins every engine9 database has. Installing it does not refuse plaintext plugins; exclude_pii on @engine9/schemas/utilities/limited-pii does.",
+  "unique": true,
+  "include": [
+    "@engine9/schemas/person_remote",
+    "@engine9/schemas/person_hash",
+    "@engine9/schemas/timeline",
+    "@engine9/schemas/transaction/core"
+  ]
+}

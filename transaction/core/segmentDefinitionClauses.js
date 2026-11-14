@@ -10,6 +10,15 @@ function amountOption(name, value) {
   return n;
 }
 
+function sourceCodeCondition(sourceCode) {
+  const value = String(sourceCode);
+  const type = value.includes('%') ? 'LIKE' : 'EQUALS';
+  return {
+    type,
+    values: [{ ref: { column: 'source_code' } }, { value: { value } }]
+  };
+}
+
 export const all = {
   title: 'Transactions',
   form: {
@@ -42,13 +51,24 @@ export const all = {
         title: 'Maximum amount',
         type: 'number',
         description: 'Optional; only include rows with amount <= maxAmount.'
+      },
+      sourceCode: {
+        title: 'Source code',
+        type: 'string',
+        description: 'Optional; exact source code, or a LIKE pattern when it contains %'
       }
     },
     required: []
   },
   optionsToEQL: (options) => {
-    const { plugin_id, start, end, minAmount, maxAmount } = options;
+    const { plugin_id, start, end, minAmount, maxAmount, sourceCode } = options;
     const conditions = [];
+    const joins = [
+      {
+        table: 'input',
+        join_eql: 'transaction.input_id=input.id'
+      }
+    ];
     let text = 'Has any transactions';
     if (plugin_id) {
       conditions.push(`input.plugin_id='${plugin_id}'`);
@@ -76,16 +96,21 @@ export const all = {
       conditions.push(`transaction.amount<=${max}`);
       text += ` with amount <= ${max}`;
     }
+    if (!blank(sourceCode)) {
+      const code = String(sourceCode).trim();
+      joins.push({
+        table: 'source_code_dictionary',
+        join_eql: 'transaction.final_source_code_id=source_code_dictionary.source_code_id'
+      });
+      conditions.push(sourceCodeCondition(code));
+      const matchLabel = code.includes('%') ? 'matching ' : '';
+      text += ` with source code ${matchLabel}${code}`;
+    }
     return {
       text,
       eql: {
         table: 'transaction',
-        joins: [
-          {
-            table: 'input',
-            join_eql: 'transaction.input_id=input.id'
-          }
-        ],
+        joins,
         columns: ['person_id'],
         conditions
       }

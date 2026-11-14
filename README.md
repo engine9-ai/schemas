@@ -5,6 +5,19 @@ The engine9 standard schemas: shared tables, inbound transforms, searches, and s
 This package is [MIT licensed](./LICENSE). Use, copy, modify, and distribute
 this code as-is.
 
+## Required plugins and editions
+
+Every engine9 database has the **required plugins**, whatever else it installs: `plugin`, `person`, `segment`, and `source_code`. `@engine9/core` keeps that list (`REQUIRED_PLUGINS`) and installs them at setup. Everything else here is the site's choice, installed after setup with `npx e9core install --plugin <path>`.
+
+An **edition** installs a set at once. It is a plugin with no tables whose `plugin.json` `include` list names what a kind of site adds to the required plugins. `e9core upgrade` reinstalls an installed edition, so a plugin an edition gains in a release reaches every database that has it.
+
+| Edition | Adds | For |
+| --- | --- | --- |
+| [`editions/contact`](editions/contact/plugin.json) | `person_name`, `person_remote`, `person_email`, `person_phone`, `person_address`, `timeline`, `transaction/core`, `transaction/contact_details` | Sites that keep people's contact details |
+| [`editions/pii-free`](editions/pii-free/plugin.json) | `person_remote`, `person_hash`, `timeline`, `transaction/core` | Sites that match people by hashed email and phone and store no plaintext contact details |
+
+An edition lists only additions; it never lists a required plugin. `exclude_pii` on [`utilities/limited-pii`](utilities/limited-pii/settings.js) is what makes an account PII-free: core refuses the plaintext contact plugins, and any plugin that includes one, such as `editions/contact`. The setting does not install an edition. A PII-free account need not keep hashes.
+
 ## Documentation
 
 Each schema plugin is documented in its own `README.md`. That file is the human-readable contract: what the schema plugin is for, the data model, inbound/outbound behavior, segment definition clauses, **predefined segments**, and UI. Keep implementation details in code comments; keep audience and membership rules in the README. Dashboards live on `@engine9/plugins/reports/<area>`, not in this package.

@@ -1,5 +1,29 @@
 # Release notes: @engine9/schemas
 
+## 1.14.0: stacks become editions; `default_stack` is retired
+
+Pair with `@engine9/core` 1.21.0, which installs only the required plugins
+(`plugin`, `person`, `segment`, `source_code`) by default and names no
+install list of its own.
+
+| # | Change | Who is affected | Breaks a build? |
+| --- | --- | --- | --- |
+| 1 | **`stacks/standard` is now `editions/contact`**, and `stacks/limited-pii` is now `editions/pii-free`. An edition lists only what it adds to the required plugins, so neither lists `plugin`, `person`, `segment`, or `source_code` any more | Code and config that name the stack paths | Yes |
+| 2 | The include list is in `plugin.json` (was `stack.json`); `@engine9/core` 1.21.0's `build-plugins` reads it | Plugin packages that copied the stack layout | Yes, for a package with `stack.json` |
+| 3 | **Removed: the `default_stack` setting** on `@engine9/schemas/plugin`. Nothing reads it | Accounts that set it | No: the upgrade below retires it |
+| 4 | **New upgrade: `retire_stacks`** on `@engine9/schemas/plugin`. It renames a `stacks/` plugin row to its edition (or deletes it when the edition already has a row), installs the edition a `default_stack` named when the account never installed it (unless `exclude_pii` refuses it), reports any other `default_stack` value as `dropped_default`, and deletes the setting | Every database with a `stacks/` row or a `default_stack` setting | No |
+| 5 | `exclude_pii` (`utilities/limited-pii`) describes what core 1.21.0 does: it refuses plaintext contact plugins and any plugin that includes one, and installs nothing | PII-free accounts | No |
+
+### What a site changes
+
+| Where | Find | Change to |
+| --- | --- | --- |
+| `package.json` | `@engine9/schemas` 1.13.x | `^1.14.0`, with `@engine9/core` `^1.21.0` |
+| An existing database | A `stacks/` plugin row, a `default_stack` setting | `npx e9core upgrade --url <site>` after the deploy |
+| Code, config, docs | `@engine9/schemas/stacks/standard` | `@engine9/schemas/editions/contact` |
+| Code, config, docs | `@engine9/schemas/stacks/limited-pii` | `@engine9/schemas/editions/pii-free` |
+| Code that installs an edition on an empty database | `install({ path: '…/stacks/standard' })` | `installRequiredPlugins()`, then `install({ path: '@engine9/schemas/editions/contact' })` |
+
 ## 1.13.0: the upgrades move here from `@engine9/core`
 
 `@engine9/core` 1.17.0 carries no upgrades. Each plugin declares its own,
