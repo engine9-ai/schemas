@@ -54,15 +54,33 @@ test('plugin upgrades are well formed and inside the upgrade window', async () =
 
 test('shouldUpgrade answers from the schema snapshot alone', async () => {
   const { upgrades: person } = await import('./person/upgrades.js');
+  const { upgrades: login } = await import('./login/upgrades.js');
   const { upgrades: core } = await import('./plugin/upgrades.js');
   const snapshot = (tables) => ({
     hasTable: (t) => t in tables,
     describe: async ({ table }) => ({ columns: tables[table].map(([name, type, length]) => ({ name, type, length })) })
   });
   const legacy = snapshot({ person: [['id', 'id'], ['given_name', 'string', 255]], setting: [['value', 'string', 255]], plugin_history: [] });
-  const current = snapshot({ person: [['id', 'id']], setting: [['value', 'text']] });
-  const should = (u, s, account = {}) => u.shouldUpgrade({ snapshot: s, account });
+  const current = snapshot({ person: [['id', 'id']], person_login: [['type', 'enum']], setting: [['value', 'text']] });
+  // The plugin rows a database has (shouldUpgrade may read them, never people tables).
+  const pluginRows = (paths) => ({
+    query: async ({ values }) => ({ data: [{ n: values.filter((p) => paths.includes(p)).length }] })
+  });
+  const should = (u, s, account = {}, options = {}, sqlWorker = pluginRows([])) =>
+    u.shouldUpgrade({ snapshot: s, account, options, sqlWorker });
   const [personName, nameColumns] = person;
+  const [personLogin] = login;
+
+  // Sign-in is its own plugin: the upgrade turns it on only where people sign in.
+  assert.equal(await should(personLogin, legacy), false, 'a data-only database: no sign-in, no table');
+  assert.equal(await should(personLogin, legacy, {}, {}, pluginRows(['roles'])), true, 'someone holds a role');
+  assert.equal(await should(personLogin, legacy, {}, {}, pluginRows(['@engine9/schemas/editions/contact'])), true, 'the contact edition');
+  assert.equal(await should(personLogin, legacy, {}, { sign_in: true }), true, 'the site has sign-in');
+  assert.equal(await should(personLogin, legacy, {}, { plugins: ['@engine9/schemas/login'] }), true, 'named in the run');
+  assert.equal(await should(personLogin, legacy, {}, { role_segments: 'admins' }), true, 'role segments given');
+  assert.equal(await should(personLogin, snapshot({}), {}, { sign_in: true }), false, 'an empty database: the install creates it');
+  assert.equal(await should(personLogin, current, {}, { sign_in: true }), false, 'the table exists');
+  assert.equal(await should(personLogin, current, {}, { backfill_logins: true }), true, 'backfill_logins runs it again');
   const [settingValue, pluginHistory] = core;
 
   assert.equal(await should(personName, legacy), true);

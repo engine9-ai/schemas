@@ -37,10 +37,12 @@ test('the contact edition includes the plaintext contact plugins', () => {
     'transaction/core installs before contact_details'
   );
   assert.ok(!contact.include.includes('@engine9/plugins/reports/people'));
+  assert.ok(contact.include.includes('@engine9/schemas/login'), 'a website signs people in');
 });
 
 test('the pii-free edition includes person_hash and no plaintext contact plugin', () => {
   assert.equal(piiFree.name, '@engine9/schemas/editions/pii-free');
   assert.ok(piiFree.include.includes('@engine9/schemas/person_hash'));
   for (const path of PLAINTEXT) assert.ok(!piiFree.include.includes(path), `${path} is not included`);
+  assert.ok(!piiFree.include.includes('@engine9/schemas/login'), 'sign-in is added by hand on a PII-free site');
 });

@@ -1,5 +1,25 @@
 # Release notes: @engine9/schemas
 
+## 1.15.0: `login`, the sign-in list
+
+Pair with `@engine9/core` 1.22.0, which reads it for every sign-in. Plain
+steps for site owners: core `docs/upgrade-1.22.md`.
+
+| # | Change | Who is affected | Breaks a build? |
+| --- | --- | --- | --- |
+| 1 | **New plugin `@engine9/schemas/login`** with one table, `person_login`: who can sign in, and as which person. One row per login (`type` `email` or `delegate`, `value_hash`, `subject`, `person_id`, `how`, `state`, `last_sign_in_at`). Hashes and Delegate pseudonyms only, so a PII-free account can install it. The people pipeline never writes it. It is not required: a database without it has no sign-in | Sites where people sign in | No |
+| 2 | **The contact edition includes `login`.** `e9core upgrade` reinstalls the edition, so every contact-edition database gets it. The PII-free edition does not include it | Contact-edition sites | No |
+| 3 | **New upgrade: `person_login`** on `login`. On a database that signs people in (the site has sign-in, someone holds a role, the contact edition is installed, or the run names the plugin), it creates the table and copies every role holder's addresses into it (`person_email`, `person_hash_email`), active, so admins keep signing in as before. Role holders are members of the `roles` plugin's segments plus `role_segments` (core's `POST /admin/upgrade` passes the site's configured roles and `sign_in`). An address two role holders share is reported (`conflicts`), as are role holders with no address (`no_address`). A data-only database is left alone. `backfill_logins` runs the copy again | Every database where people sign in | No |
+
+### What a site changes
+
+| Where | Find | Change to |
+| --- | --- | --- |
+| `package.json` | `@engine9/schemas` 1.14.x | `^1.15.0`, with `@engine9/core` `^1.22.0` |
+| An existing database | (no `person_login` table) | `npx e9core upgrade --url <site>` after the deploy |
+| A site with sign-in that is not on the contact edition, upgraded with `--db` | (no `person_login` table after the upgrade) | `npx e9core upgrade --plugin @engine9/schemas/login --db …` |
+| A data-only database | | Nothing |
+
 ## 1.14.0: stacks become editions; `default_stack` is retired
 
 Pair with `@engine9/core` 1.21.0, which installs only the required plugins
