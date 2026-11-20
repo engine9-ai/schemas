@@ -3,8 +3,9 @@ export const tables = [
     person_login: who can sign in, and as which person (the /etc/passwd of an
     engine9 database). One row is one login: a Delegate account (`delegate`,
     keyed by its Domain UNID) or a verified email address (`email`, keyed by
-    email_hash_v1). Only sign-in, an admin's grant, and the admin `signin`
-    commands write it; the people pipeline (dedupe) never does. It holds
+    email_hash_v1). Only sign-in, an admin's grant, the admin `signin`
+    commands, and this plugin's upgrade write it; the people pipeline
+    (dedupe) never does, and a sign-in never finds a person through dedupe. It holds
     hashes and Delegate pseudonyms, no contact details, so a PII-free account
     can install it. @engine9/core reads it (auth/logins.js). A database
     without it has no sign-in.
@@ -33,8 +34,8 @@ export const tables = [
         type: 'enum',
         nullable: false,
         default_value: 'created',
-        values: ['created', 'adopted', 'granted', 'backfill'],
-        description: 'How the row was made; an adopted login carries only self-join roles'
+        values: ['created', 'granted', 'backfill'],
+        description: 'How the row was made: by a first sign-in (created), an admin (granted), or the upgrade copy (backfill)'
       },
       state: {
         type: 'enum',

@@ -37,7 +37,7 @@ test('the contact edition includes the plaintext contact plugins', () => {
     'transaction/core installs before contact_details'
   );
   assert.ok(!contact.include.includes('@engine9/plugins/reports/people'));
-  assert.ok(contact.include.includes('@engine9/schemas/login'), 'a website signs people in');
+  assert.ok(!contact.include.includes('@engine9/schemas/login'), 'sign-in is added on purpose, not by an edition');
 });
 
 test('the pii-free edition includes person_hash and no plaintext contact plugin', () => {

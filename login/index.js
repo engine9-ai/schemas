@@ -1,7 +1,7 @@
 /*
   Sign-in: who can sign in to a site built with @engine9/core, and as which
-  person (person_login). A site that signs people in needs this plugin; a
-  data-only database leaves it out. The contact edition includes it.
+  person (person_login). A site that signs people in adds this plugin on
+  purpose; a data-only database leaves it out. No edition includes it.
 
   Turn sign-in on for an existing database with
   `npx e9core upgrade --plugin @engine9/schemas/login`, which creates the

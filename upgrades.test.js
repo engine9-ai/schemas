@@ -74,13 +74,14 @@ test('shouldUpgrade answers from the schema snapshot alone', async () => {
   // Sign-in is its own plugin: the upgrade turns it on only where people sign in.
   assert.equal(await should(personLogin, legacy), false, 'a data-only database: no sign-in, no table');
   assert.equal(await should(personLogin, legacy, {}, {}, pluginRows(['roles'])), true, 'someone holds a role');
-  assert.equal(await should(personLogin, legacy, {}, {}, pluginRows(['@engine9/schemas/editions/contact'])), true, 'the contact edition');
+  assert.equal(await should(personLogin, legacy, {}, {}, pluginRows(['@engine9/schemas/editions/contact'])), false, 'an edition alone does not turn sign-in on');
   assert.equal(await should(personLogin, legacy, {}, { sign_in: true }), true, 'the site has sign-in');
   assert.equal(await should(personLogin, legacy, {}, { plugins: ['@engine9/schemas/login'] }), true, 'named in the run');
   assert.equal(await should(personLogin, legacy, {}, { role_segments: 'admins' }), true, 'role segments given');
   assert.equal(await should(personLogin, snapshot({}), {}, { sign_in: true }), false, 'an empty database: the install creates it');
   assert.equal(await should(personLogin, current, {}, { sign_in: true }), false, 'the table exists');
   assert.equal(await should(personLogin, current, {}, { backfill_logins: true }), true, 'backfill_logins runs it again');
+  assert.equal(await should(personLogin, current, {}, { all_addresses: true }), false, 'all_addresses only on the run that creates the table');
   const [settingValue, pluginHistory] = core;
 
   assert.equal(await should(personName, legacy), true);

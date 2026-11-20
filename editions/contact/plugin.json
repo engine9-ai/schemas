@@ -1,6 +1,6 @@
 {
   "name": "@engine9/schemas/editions/contact",
-  "description": "Contact edition: plaintext names, email, phone, and postal address, remote ids, sign-in (login), timeline, and transactions with the payer's contact details. Adds to the required plugins every engine9 database has.",
+  "description": "Contact edition: plaintext names, email, phone, and postal address, remote ids, timeline, and transactions with the payer's contact details. Adds to the required plugins every engine9 database has.",
   "unique": true,
   "include": [
     "@engine9/schemas/person_name",
@@ -10,7 +10,6 @@
     "@engine9/schemas/person_address",
     "@engine9/schemas/timeline",
     "@engine9/schemas/transaction/core",
-    "@engine9/schemas/transaction/contact_details",
-    "@engine9/schemas/login"
+    "@engine9/schemas/transaction/contact_details"
   ]
 }

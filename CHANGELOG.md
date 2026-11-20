@@ -8,8 +8,8 @@ steps for site owners: core `docs/upgrade-1.22.md`.
 | # | Change | Who is affected | Breaks a build? |
 | --- | --- | --- | --- |
 | 1 | **New plugin `@engine9/schemas/login`** with one table, `person_login`: who can sign in, and as which person. One row per login (`type` `email` or `delegate`, `value_hash`, `subject`, `person_id`, `how`, `state`, `last_sign_in_at`). Hashes and Delegate pseudonyms only, so a PII-free account can install it. The people pipeline never writes it. It is not required: a database without it has no sign-in | Sites where people sign in | No |
-| 2 | **The contact edition includes `login`.** `e9core upgrade` reinstalls the edition, so every contact-edition database gets it. The PII-free edition does not include it | Contact-edition sites | No |
-| 3 | **New upgrade: `person_login`** on `login`. On a database that signs people in (the site has sign-in, someone holds a role, the contact edition is installed, or the run names the plugin), it creates the table and copies every role holder's addresses into it (`person_email`, `person_hash_email`), active, so admins keep signing in as before. Role holders are members of the `roles` plugin's segments plus `role_segments` (core's `POST /admin/upgrade` passes the site's configured roles and `sign_in`). An address two role holders share is reported (`conflicts`), as are role holders with no address (`no_address`). A data-only database is left alone. `backfill_logins` runs the copy again | Every database where people sign in | No |
+| 2 | **No edition includes `login`.** A site that signs people in adds it on purpose: `e9core install --plugin @engine9/schemas/login`, or `"engine9": { "install": ["@engine9/schemas/editions/contact", "@engine9/schemas/login"] }` in `package.json`. An existing site gets it from the upgrade below | New sites with sign-in | No |
+| 3 | **New upgrade: `person_login`** on `login`. On a database that signs people in (the site has sign-in, someone holds a role, or the run names the plugin), it creates the table and copies addresses into it as active logins (`person_email`, `person_hash_email`): every role holder's (members of the `roles` plugin's segments plus `role_segments`; core's `POST /admin/upgrade` passes the site's configured roles and `sign_in`), and every address sign-in wrote (input `delegate`, or `sign_in_inputs`). `all_addresses` copies every address on file. From core 1.22 a first sign-in with no login is a new person, so this copy is the one time addresses on file become logins. An address on two records is reported (`conflicts`) and written for neither; role holders with no address are reported (`no_address`). A sign-in during the copy is moved to the record the copy names. A data-only database is left alone. `backfill_logins` runs the copy again, for role holders with no login only; `all_addresses` is refused once the table exists | Every database where people sign in | No |
 
 ### What a site changes
 
@@ -17,7 +17,9 @@ steps for site owners: core `docs/upgrade-1.22.md`.
 | --- | --- | --- |
 | `package.json` | `@engine9/schemas` 1.14.x | `^1.15.0`, with `@engine9/core` `^1.22.0` |
 | An existing database | (no `person_login` table) | `npx e9core upgrade --url <site>` after the deploy |
-| A site with sign-in that is not on the contact edition, upgraded with `--db` | (no `person_login` table after the upgrade) | `npx e9core upgrade --plugin @engine9/schemas/login --db …` |
+| A site whose people on file should reach their record at a first sign-in | | Add `--all-addresses` to that upgrade, once |
+| A site with sign-in, upgraded with `--db`, where nobody holds a role yet | (no `person_login` table after the upgrade) | `npx e9core upgrade --plugin @engine9/schemas/login --db …` |
+| A new site with sign-in | `"install": ["@engine9/schemas/editions/contact"]` | `"install": ["@engine9/schemas/editions/contact", "@engine9/schemas/login"]` |
 | A data-only database | | Nothing |
 
 ## 1.14.0: stacks become editions; `default_stack` is retired

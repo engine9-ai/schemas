@@ -13,12 +13,12 @@ An **edition** installs a set at once. It is a plugin with no tables whose `plug
 
 | Edition | Adds | For |
 | --- | --- | --- |
-| [`editions/contact`](editions/contact/plugin.json) | `person_name`, `person_remote`, `person_email`, `person_phone`, `person_address`, `timeline`, `transaction/core`, `transaction/contact_details`, `login` | **Every new site.** Signup, login, and adding admins by email expect it. The setup wizard recommends it |
+| [`editions/contact`](editions/contact/plugin.json) | `person_name`, `person_remote`, `person_email`, `person_phone`, `person_address`, `timeline`, `transaction/core`, `transaction/contact_details` | **Every new site.** Signup, login, and adding admins by email expect it. The setup wizard recommends it |
 | [`editions/pii-free`](editions/pii-free/plugin.json) | `person_remote`, `person_hash`, `timeline`, `transaction/core` | Advanced. Sites that must not hold contact details and have checked what that costs: no names or email addresses, so no email to people and no admins added by email |
 
 ### Sign-in needs `login`
 
-A site where people sign in needs [`login`](login/index.js) (`@engine9/schemas/login`, the `person_login` table: who can sign in, and as which person). It is not required: a data-only database never signs anyone in and leaves it out. The contact edition includes it. A database without it has no sign-in: `@engine9/core` refuses every sign-in rather than guess who someone is from addresses typed into forms. It holds hashes only, so a PII-free site can add it. To turn sign-in on for an existing database, and copy today's role holders into it:
+A site where people sign in needs [`login`](login/index.js) (`@engine9/schemas/login`, the `person_login` table: who can sign in, and as which person). It is not required, and no edition includes it: a data-only database never signs anyone in and leaves it out, and a site that signs people in adds it on purpose. A database without it has no sign-in: `@engine9/core` refuses every sign-in rather than guess who someone is from addresses typed into forms. It holds hashes only, so a PII-free site can add it. Add it to a new database with `npx e9core install --plugin @engine9/schemas/login`, or list it in `package.json` `"engine9": { "install": [...] }` after the edition. To turn sign-in on for an existing database, and copy today's role holders and the addresses people already signed in with into it (add `--all-addresses` to copy every address on file, once):
 
 ```bash
 npx e9core upgrade --plugin @engine9/schemas/login
